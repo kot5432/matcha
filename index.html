@@ -64,30 +64,30 @@
 @media(max-width:720px){.overlay.show .panel{animation-duration:.27s}.picture-trigger.card-refresh .picture-image{animation-duration:.25s}}
 @media(prefers-reduced-motion:reduce){.picture-trigger.card-refresh .picture-image,.overlay.show,.overlay.show .panel,.intro-overlay:not([hidden]) .panel{animation:none!important}.quick-save,.saved-open,.help-open,.picture-tap{transition:none!important}.picture-trigger:hover .picture-tap{transform:translateX(-50%)}}
 </style></head>
-<body><header class="top"><div class="brand">MATCHA ROUTE</div><div class="drop">FIELD NOTES　/　DROP 01</div></header><main class="shell"><section class="hero"><div><div class="eyebrow">A LITTLE JOURNEY THROUGH MATCHA</div><h1>まだ知らない、<br>抹茶のかたち。</h1><p>5つの抹茶スイーツをめぐる。</p></div><div class="count">OSAKA / KYOTO · 5 DISCOVERIES</div></section>
+<body><header class="top"><div class="brand">MATCHA ROUTE</div><div class="drop">抹茶スイーツの発見サイト</div></header><main class="shell"><section class="hero"><div><div class="eyebrow">5つの抹茶スイーツを紹介</div><h1>抹茶スイーツを見つける</h1><p>気になる一品を見つけたら、あとで見返せるように保存できます。</p></div><div class="count">5品を掲載中</div></section>
 
-<div class="toolbar"><div class="switch" role="tablist"><button class="active" data-mode="discover">発見型</button><button data-mode="list">一覧型</button></div><button type="button" class="help-open" id="openHelp">使い方 ?</button><button class="saved-open" id="openSaved">♡ 食べてみたい <b id="savedCount">0</b></button></div>
+<div class="toolbar"><div class="switch" role="group" aria-label="表示方法"><button class="active" data-mode="discover" aria-pressed="true">一品ずつ見る</button><button data-mode="list" aria-pressed="false">一覧で見る</button></div><button type="button" class="help-open" id="openHelp">使い方</button><button class="saved-open" id="openSaved">♡ 保存した商品 <b id="savedCount">0</b></button></div>
 <section id="discovery">
 <article class="feature discovery-feature" id="swipeCard" role="group" aria-label="抹茶スイーツ。左へスワイプで次へ、右へスワイプで前へ">
-  <div class="picture-head"><span class="card-index" id="visualIndex">01 / 05</span><span class="picture-hint">一品ずつ、めぐる</span></div>
+  <div class="picture-head"><span class="card-index" id="visualIndex">01 / 05</span><span class="picture-hint">画像をタップして詳しく見る</span></div>
   <button type="button" class="picture-trigger" id="pictureTrigger" aria-label="抹茶バスクチーズの発見ポイントを開く">
     <img class="picture-image" id="productImage" src="assets/matcha-basque-cheesecake.jpg" alt="抹茶バスクチーズのイメージイラスト">
-    <span class="picture-tap">＋ タップして、魅力を発見</span>
+    <span class="picture-tap">詳しく見る ↗</span>
   </button>
   <div class="picture-caption"><div><div class="kicker" id="kind">01 — CHEESE × MATCHA</div><h2 id="name"></h2><p class="shop" id="shop"></p></div><button type="button" class="quick-save" id="saveBtn" aria-pressed="false">♡ 保存</button></div>
 </article>
-<p class="swipe-hint">画像をタップで発見　・　左右スワイプで次の一品へ</p>
+<p class="swipe-hint">左右スワイプで商品を切り替えられます</p>
 <div class="nextrow"><button id="prevBtn">← 前の商品</button><div class="dots" id="dots"></div><button id="nextBtn">次の抹茶へ →</button></div>
 </section>
-<section id="listing" class="list" hidden></section><div class="footnote"><b>Webデモについて：</b>掲載情報は紹介用の試作データで、画像は商品写真ではなくイメージイラストです。商品ごとの入手方法は公式情報を一部確認しましたが、現在の販売・在庫・価格・購入可能性を保証するものではありません。外部リンクには公式商品情報と参考用Instagram投稿があり、決済・成果報酬は未実装です。</div></main>
+<section id="listing" class="list" hidden></section><div class="footnote"><b>掲載情報について：</b>掲載情報は紹介用の試作データで、画像は商品写真ではなくイメージイラストです。商品ごとの入手方法は公式情報を一部確認しましたが、現在の販売・在庫・価格・購入可能性を保証するものではありません。外部リンクには公式商品情報と参考用Instagram投稿があり、決済・成果報酬は未実装です。</div></main>
 <div class="overlay intro-overlay" id="introOverlay" hidden>
 <section class="panel intro-panel" role="dialog" aria-modal="true" aria-labelledby="introTitle" aria-describedby="introSummary">
-<div class="eyebrow">WELCOME TO MATCHA ROUTE</div><h2 id="introTitle">知らない抹茶に、会いに行こう。</h2>
-<p id="introSummary">商品を探す前に、まだ知らない一品との出会いを楽しむ小さな旅です。</p>
-<ol><li><strong>まずは、写真を見る。</strong><span>気になる抹茶を一品ずつ。</span></li><li><strong>写真をタップする。</strong><span>発見ポイントと次の一品へのつながりを知る。</span></li><li><strong>♡ で保存する。</strong><span>あとから入手方法も確認できます。</span></li></ol>
+<div class="eyebrow">MATCHA ROUTE</div><h2 id="introTitle">MATCHA ROUTEの使い方</h2>
+<p id="introSummary">抹茶スイーツを一品ずつ紹介しています。気になる商品を見つけてみてください。</p>
+<ol><li><strong>画像を見る</strong><span>5つの抹茶スイーツを一品ずつ紹介します。</span></li><li><strong>画像をタップする</strong><span>商品の特徴や入手方法を確認できます。</span></li><li><strong>気になったら保存</strong><span>♡を押すと、あとからまとめて見返せます。</span></li></ol>
 <p class="intro-note">左右スワイプか「次の抹茶へ」で進めます。購入しなくても楽しめます。</p>
 <label class="intro-remember"><input type="checkbox" id="rememberIntro" checked> 次回から表示しない</label>
-<button type="button" class="btn primary intro-start" id="startIntro">抹茶をめぐる →</button>
+<button type="button" class="btn primary intro-start" id="startIntro">見てみる →</button>
 </section></div>
 <div class="overlay" id="overlay"><section class="panel" role="dialog" aria-modal="true"><div class="panelhead"><h2 id="panelTitle"></h2><button class="close" id="closePanel" aria-label="閉じる">×</button></div><div id="panelContent"></div></section></div><div class="toast" id="toast"></div>
 <script>
@@ -119,7 +119,7 @@ let toastTimer;function toast(s){$('#toast').textContent=s;$('#toast').classList
 const closePanel=()=>{$('#overlay').classList.remove('show');$('#openSaved').focus()};
 function openIntro(){const el=$('#introOverlay');el.hidden=false;$('#startIntro').focus()}
 function closeIntro(){try{if($('#rememberIntro').checked)localStorage.setItem('matchaIntroSeenV1','1');else localStorage.removeItem('matchaIntroSeenV1')}catch{}$('#introOverlay').hidden=true;$('#pictureTrigger').focus()}
-document.querySelectorAll('.switch button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('.switch button').forEach(x=>x.classList.toggle('active',x===b));$('#discovery').hidden=mode==='list';$('#listing').hidden=mode!=='list';if(mode==='list')renderList()});
+document.querySelectorAll('.switch button').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('.switch button').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b))});$('#discovery').hidden=mode==='list';$('#listing').hidden=mode!=='list';if(mode==='list')renderList()});
 $('#prevBtn').onclick=()=>{if(index>0){index--;render()}};
 $('#nextBtn').onclick=()=>{index=(index+1)%products.length;render()};
 $('#saveBtn').onclick=()=>toggle(index);
