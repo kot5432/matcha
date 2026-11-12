@@ -124,6 +124,34 @@ body{font-family:'Noto Sans JP',sans-serif;background:#f7f6f1;color:#253c30}
 .site-footer button:focus-visible{outline:3px solid #80975e;outline-offset:3px}
 .about-heading{font:600 15px 'Noto Sans JP',sans-serif;margin:22px 0 6px}
 @media(max-width:720px){.site-footer{gap:10px}.site-footer button{margin-left:0}}
+
+/* Product detail: reveal useful content promptly after opening the sheet. */
+.detail-intro{display:flex;align-items:center;gap:16px;min-width:0;margin:3px 0 16px}
+.detail-intro-copy{flex:1;min-width:0}
+.detail-intro .detail-visual{width:114px;height:114px;max-height:none;flex:0 0 114px;margin:0;border-radius:9px;object-fit:cover;background:#f3ecdb}
+.detail-intro .detail-title{font:600 22px/1.45 'Noto Serif JP',serif;margin:6px 0 3px;overflow-wrap:anywhere}
+.detail-intro .detail-shop{font-size:12px;line-height:1.6}
+.detail-image-note{font-size:10px;color:#899388;margin-top:7px}
+.detail-discovery{margin:14px 0 16px;padding:4px 0 5px 14px}
+.detail-discovery h3{margin:7px 0 5px;font-size:18px;line-height:1.55}
+.detail-discovery .detail-body{font-size:13px;line-height:1.8;margin:6px 0}
+.detail-next{margin:14px 0 16px;padding:13px 15px}
+.detail-next strong{line-height:1.55}
+.detail-next p{font:13px/1.75 'Noto Sans JP',sans-serif}
+.detail-actions{margin:15px 0 6px}
+.detail-actions button{min-height:44px}
+.detail-actions button[aria-pressed=true]{background:#e2eddc;color:#294d36;border-color:#a5bf9c}
+.purchase-guide{margin:18px 0 14px}
+.purchase-guide .status{margin:4px 0}
+.purchase-guide .detail-body{font-size:12px;line-height:1.8}
+.purchase-link{display:inline-flex;align-items:center;padding:9px 12px;border-radius:6px;border:1px solid #c7d9c2;background:#fffefb;font:600 12px 'Noto Sans JP',sans-serif;text-decoration:none;margin-top:6px}
+.purchase-link:hover{background:#e4eee0}
+.purchase-link:focus-visible{outline:3px solid #80975e;outline-offset:3px}
+.detail-source{padding:4px 1px 8px}
+.detail-source a{font-size:12px;text-underline-offset:3px}
+.detail-source p{font-size:10px;line-height:1.7;color:#788778;margin:10px 0 0}
+@media(max-width:720px){.detail-intro{gap:12px;margin-bottom:12px}.detail-intro .detail-visual{width:92px;height:92px;flex-basis:92px}.detail-intro .detail-title{font-size:19px}.detail-discovery h3{font-size:17px}.detail-actions{gap:8px}.detail-actions button{font-size:12px;padding:11px 8px}}
+@media(max-width:350px){.detail-intro .detail-visual{width:78px;height:78px;flex-basis:78px}.detail-intro .detail-title{font-size:17px}.detail-next strong small,.detail-discovery strong small{display:block;margin:2px 0 0}}
 </style></head>
 <body><header class="top"><div class="brand">MATCHA ROUTE</div><div class="drop">抹茶スイーツの発見サイト</div></header><main class="shell"><section class="hero"><div><div class="eyebrow">5つの抹茶スイーツを紹介</div><h1>抹茶スイーツを見つける</h1><p>気になる一品を見つけたら、あとで見返せるように保存できます。</p></div><div class="count">5品を掲載中</div></section>
 
@@ -173,8 +201,50 @@ function loadSaved(){try{const stored=localStorage.getItem('matchaSavedV2');if(s
 let index=0,mode='discover',saved=loadSaved(),lastDetailIndex=null,lastRenderedProductId=null,previousModalFocus=null;const $=s=>document.querySelector(s);const esc=s=>s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function render(){const p=products[index],productChanged=lastRenderedProductId!==null&&lastRenderedProductId!==p.id;lastRenderedProductId=p.id;$('#visualIndex').textContent=`${String(index+1).padStart(2,'0')} / ${products.length.toString().padStart(2,'0')}`;$('#kind').textContent=p.kind;$('#name').textContent=p.name;$('#shop').textContent=p.shop;$('#productImage').src=p.image;$('#productImage').alt=`${p.name}のイメージイラスト`;$('#pictureTrigger').setAttribute('aria-label',`${p.name}の発見ポイントを開く`);$('#swipeCard').setAttribute('aria-label',`${p.name}。左へスワイプで次、右へスワイプで前の商品`);$('#prevBtn').disabled=index===0;$('#nextBtn').textContent=index===products.length-1?'もう一度めぐる ↺':'次の抹茶へ →';$('#saveBtn').textContent=saved.includes(p.id)?'♥ 保存済み':'♡ 保存';$('#saveBtn').setAttribute('aria-pressed',String(saved.includes(p.id)));$('#dots').innerHTML=products.map((_,i)=>`<button class="dot ${i===index?'active':''}" aria-label="${i+1}番目の商品へ" aria-current="${i===index?'step':'false'}" data-i="${i}"></button>`).join('');$('#dots').querySelectorAll('button').forEach(b=>b.onclick=()=>{index=+b.dataset.i;render()});$('#savedCount').textContent=saved.length;if(productChanged){const trigger=$('#pictureTrigger');trigger.classList.remove('card-refresh');void trigger.offsetWidth;trigger.classList.add('card-refresh')}}
 function renderList(){ $('#listing').innerHTML=products.map((p,i)=>`<article class="item"><div class="thumb"><img class="thumb-image" src="${p.image}" alt="${esc(p.name)}のイメージイラスト" loading="lazy"></div><div class="itemtext"><small>DISCOVERY ${String(i+1).padStart(2,'0')}</small><h3>${esc(p.name)}</h3><p>${esc(p.shop)}</p><div class="mini"><button class="heart ${saved.includes(p.id)?'on':''}" data-save="${i}" aria-label="食べてみたい">${saved.includes(p.id)?'♥':'♡'}</button><button data-detail="${i}">詳細を見る</button><a href="${p.url}" target="_blank" rel="noopener noreferrer">紹介元を見る ↗</a></div></div></article>`).join('');$('#listing').querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>toggle(+b.dataset.save));$('#listing').querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>showDetail(+b.dataset.detail)) }
-function toggle(i){const id=products[i].id;saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];try{localStorage.setItem('matchaSavedV2',JSON.stringify(saved))}catch{toast('このブラウザーでは保存が保持されない場合があります')}render();renderList();if($('#overlay').classList.contains('show')){if($('#panelTitle').textContent==='保存した商品')showSaved();else if($('#panelTitle').textContent==='商品の詳細')showDetail(i)}}
-function showDetail(i){if(!$('#overlay').classList.contains('show'))previousModalFocus=document.activeElement;const p=products[i],g=purchaseGuides[i];$('#panelTitle').textContent='商品の詳細';$('#panelContent').innerHTML=`<img class="detail-visual" src="${p.image}" alt="${esc(p.name)}のイメージイラスト"><div class="eyebrow">${i+1} / ${products.length}　商品の紹介</div><div class="detail-title">${esc(p.name)}</div><div class="detail-shop">${esc(p.shop)}</div><section class="detail-discovery"><strong>発見ポイント <small>DISCOVERY POINT</small></strong><h3>${esc(p.point)}</h3><p class="detail-body">${esc(p.desc)}</p></section><section class="detail-next"><strong>次の一品へ <small>NEXT CONNECTION</small></strong><p>${esc(p.next)}</p></section><div class="detail-actions"><button class="btn primary" id="detailSave">${saved.includes(p.id)?'♥ 保存済み':'♡ 食べてみたい'}</button><button class="btn secondary" id="detailNext">${i===products.length-1?'もう一度めぐる ↺':'次の抹茶へ →'}</button></div><div class="purchase-guide"><strong>入手方法</strong><span class="status">${esc(g.status)}</span><p class="detail-body">${esc(g.description)}</p>${g.officialUrl?`<a href="${g.officialUrl}" target="_blank" rel="noopener noreferrer">${esc(g.officialLabel)} ↗</a>`:''}</div><p class="detail-body">この試作品では紹介元のInstagram投稿も参照できます。リンク先の情報は購入可能性を保証しません。</p><a href="${p.url}" target="_blank" rel="noopener noreferrer">元のInstagram投稿を見る ↗</a>`;$('#overlay').classList.add('show');lastDetailIndex=i;$('#detailSave').onclick=()=>toggle(i);$('#detailNext').onclick=()=>{index=(i+1)%products.length;render();showDetail(index);$('#panelContent').parentElement.scrollTop=0};$('#closePanel').focus()}
+function toggle(i){const id=products[i].id;saved=saved.includes(id)?saved.filter(x=>x!==id):[...saved,id];try{localStorage.setItem('matchaSavedV2',JSON.stringify(saved))}catch{toast('このブラウザーでは保存が保持されない場合があります')}render();renderList();if($('#overlay').classList.contains('show')){if($('#panelTitle').textContent==='保存した商品')showSaved();else if($('#panelTitle').textContent==='商品の詳細'&&$('#detailSave')){const b=$('#detailSave'),isSaved=saved.includes(id);b.textContent=isSaved?'♥ 保存済み':'♡ 食べてみたい';b.setAttribute('aria-pressed',String(isSaved))}}}
+function showDetail(i){
+  if(!$('#overlay').classList.contains('show'))previousModalFocus=document.activeElement;
+  const p=products[i],g=purchaseGuides[i],last=i===products.length-1;
+  $('#panelTitle').textContent='商品の詳細';
+  $('#panelContent').innerHTML=`
+    <div class="detail-intro">
+      <img class="detail-visual" src="${p.image}" alt="${esc(p.name)}のイメージイラスト">
+      <div class="detail-intro-copy">
+        <div class="eyebrow">${i+1} / ${products.length}　商品の紹介</div>
+        <div class="detail-title">${esc(p.name)}</div>
+        <div class="detail-shop">${esc(p.shop)}</div>
+        <div class="detail-image-note">画像はイメージです</div>
+      </div>
+    </div>
+    <section class="detail-discovery">
+      <strong>発見ポイント <small>DISCOVERY POINT</small></strong>
+      <h3>${esc(p.point)}</h3>
+      <p class="detail-body">${esc(p.desc)}</p>
+    </section>
+    <section class="detail-next">
+      <strong>${last?'5つの発見を振り返る':'次に紹介する一品'} <small>NEXT CONNECTION</small></strong>
+      <p>${esc(p.next)}</p>
+    </section>
+    <div class="detail-actions">
+      <button type="button" class="btn primary" id="detailSave" aria-pressed="${saved.includes(p.id)}">${saved.includes(p.id)?'♥ 保存済み':'♡ 食べてみたい'}</button>
+      <button type="button" class="btn secondary" id="detailNext">${last?'もう一度めぐる ↺':'次の抹茶へ →'}</button>
+    </div>
+    <section class="purchase-guide">
+      <strong>入手方法</strong>
+      <span class="status">${esc(g.status)}</span>
+      <p class="detail-body">${esc(g.description)}</p>
+      ${g.officialUrl?`<a class="purchase-link" href="${g.officialUrl}" target="_blank" rel="noopener noreferrer">${esc(g.officialLabel)} ↗</a>`:''}
+    </section>
+    <div class="detail-source">
+      <a href="${p.url}" target="_blank" rel="noopener noreferrer">紹介元のInstagram投稿を見る ↗</a>
+      <p>掲載内容は参考情報です。最新の販売状況は公式情報でご確認ください。</p>
+    </div>
+  `;
+  $('#overlay').classList.add('show');lastDetailIndex=i;
+  $('#detailSave').onclick=()=>toggle(i);
+  $('#detailNext').onclick=()=>{index=(i+1)%products.length;render();showDetail(index);$('#panelContent').parentElement.scrollTop=0};
+  $('#closePanel').focus();
+}
 function showSaved(){if(!$('#overlay').classList.contains('show'))previousModalFocus=document.activeElement;$('#panelTitle').textContent='保存した商品';let chosen=saved.map(id=>{const i=products.findIndex(p=>p.id===id);return [i,products[i]]}).filter(([i])=>i>=0);$('#panelContent').innerHTML=chosen.length?`<div class="savedlist">${chosen.map(([i,p])=>`<div class="savedrow"><span>${esc(p.name)}<br><small style="color:#748072">${esc(p.shop)}</small></span><button data-detail="${i}">詳細を見る</button><button data-remove="${i}">保存を外す</button></div>`).join('')}</div>`:'<p class="empty">まだ保存した商品はありません。気になる抹茶を見つけたら♡を押してみてください。</p>';$('#panelContent').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>toggle(+b.dataset.remove));$('#panelContent').querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>showDetail(+b.dataset.detail));$('#overlay').classList.add('show')}
 let toastTimer;function toast(s){$('#toast').textContent=s;$('#toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),1600)}
 function showAbout(){previousModalFocus=document.activeElement;$('#panelTitle').textContent='このサイトについて';$('#panelContent').innerHTML=`<h3 class="about-heading">MATCHA ROUTEとは</h3><p class="detail-body">抹茶スイーツを一品ずつ紹介し、気になるものを保存できる発見サイトです。</p><h3 class="about-heading">掲載情報について</h3><p class="detail-body">現在は5商品で試しているWebデモです。画像は実際の商品写真ではなくイメージイラストです。販売状況や価格、在庫は変わるため、公式情報をご確認ください。</p><h3 class="about-heading">保存について</h3><p class="detail-body">保存した商品はこのブラウザー内に記録されます。会員登録や他端末との同期はありません。MATCHA ROUTEでは購入・決済できません。</p>`;$('#overlay').classList.add('show');$('#closePanel').focus()}
