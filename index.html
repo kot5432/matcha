@@ -227,7 +227,7 @@ function showDetail(i){
     </section>
     <div class="detail-actions">
       <button type="button" class="btn primary" id="detailSave" aria-pressed="${saved.includes(p.id)}">${saved.includes(p.id)?'♥ 保存済み':'♡ 食べてみたい'}</button>
-      <button type="button" class="btn secondary" id="detailNext">${last?'もう一度めぐる ↺':'次の抹茶へ →'}</button>
+      <button type="button" class="btn secondary" id="detailNext">${last?'もう一度めぐる ↺':'次の抹茶を見る →'}</button>
     </div>
     <section class="purchase-guide">
       <strong>入手方法</strong>
@@ -242,7 +242,15 @@ function showDetail(i){
   `;
   $('#overlay').classList.add('show');lastDetailIndex=i;
   $('#detailSave').onclick=()=>toggle(i);
-  $('#detailNext').onclick=()=>{index=(i+1)%products.length;render();showDetail(index);$('#panelContent').parentElement.scrollTop=0};
+  $('#detailNext').onclick=()=>{
+    index=(i+1)%products.length;
+    $('#overlay').classList.remove('show');
+    previousModalFocus=null;
+    document.querySelector('.switch button[data-mode="discover"]').click();
+    render();
+    $('#pictureTrigger').focus({preventScroll:true});
+    $('#discovery').scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+  };
   $('#closePanel').focus();
 }
 function showSaved(){if(!$('#overlay').classList.contains('show'))previousModalFocus=document.activeElement;$('#panelTitle').textContent='保存した商品';let chosen=saved.map(id=>{const i=products.findIndex(p=>p.id===id);return [i,products[i]]}).filter(([i])=>i>=0);$('#panelContent').innerHTML=chosen.length?`<div class="savedlist">${chosen.map(([i,p])=>`<div class="savedrow"><span>${esc(p.name)}<br><small style="color:#748072">${esc(p.shop)}</small></span><button data-detail="${i}">詳細を見る</button><button data-remove="${i}">保存を外す</button></div>`).join('')}</div>`:'<p class="empty">まだ保存した商品はありません。気になる抹茶を見つけたら♡を押してみてください。</p>';$('#panelContent').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>toggle(+b.dataset.remove));$('#panelContent').querySelectorAll('[data-detail]').forEach(b=>b.onclick=()=>showDetail(+b.dataset.detail));$('#overlay').classList.add('show')}
